@@ -301,7 +301,11 @@ Na minha opinião essa seria a melhor solução:
 1\) Cite dois recursos do javascript para o tratamento de processamentos assíncronos e explique as diferenças entre eles.
 
 ```js
-// Resposta
+Promise:
+  Elas são realizadas de forma sequência sempre que o resolve é executado ele retorna para o .the() da função, em caso de erro podemos
+  usar o .catch() para tratar o mesmo.
+Async/Await:
+  O async/await deixa o código mais claro e legível tornando mais fácil o tratamento das respostas e ajuda na manutenção do código.
 ```
 
 
@@ -334,7 +338,7 @@ Na minha opinião essa seria a melhor solução:
 ```
 
 ```js
-// Resposta
+Irá levar cerca de 1 segundos pois ele vai não vai esperar o doSomething() doSomethingElse() retornarem do setTimeout
 ```
 
 
@@ -356,7 +360,7 @@ Na minha opinião essa seria a melhor solução:
 ```
 
 ```js
-// Resposta
+Nesse caso não irá imprimir nada pois o codigo necessita de um .catch() para que o throw seja tratado de maniera correta.
 ```
 
 
@@ -396,7 +400,29 @@ Na minha opinião essa seria a melhor solução:
 
 
 ```js
-// Resposta
+function filterTransaction(item) {
+  return item.realizada;
+}
+
+function mountObject(item) {
+  const data = {
+    id: item.id,
+    value: item.valor,
+    type: item.valor < 0 ? "transference" : "deposit",
+  };
+  return data;
+}
+async function getTransactions() {
+  try {
+    const { data } = await $http.get(BASE_URL + "/api/transacoes");
+    if (data.error) throw new Error("Bad request");
+    else {
+      const { transactions } = data;
+      const _transactions = transactions.filter(filterTransaction).map(mountObject);
+    }
+  } catch (error) {
+    console.log(error)
+  }
 ```
 
 
@@ -422,6 +448,54 @@ Crie funções para:
 
 
 ```js
+
+1: function sortName(item) {
+  const sorted = item.sort((a, b) => {
+    return (a.name > b.name) - (a.name < b.name)
+  });
+  return sorted
+}
+
+2: function someAges(item) {
+ let some = 0
+ for (const i of item) {
+   some += i.age
+ }
+ return some
+}
+
+3: function verifyAgeHigh(item) {
+  for (const i of item) {
+     return i.age > 50
+  }
+  return false
+ }
+
+ 4: function verifyAgeLow(item) {
+  for (const i of item) {
+     return return !(i.age > 20)
+  }
+  return true
+ }
+
+ 5: function romoveName(item) {
+  for (const i of item) {
+     const newName = i.name.split(" ")
+     i.name = newName[1] || ""
+  }
+  return item
+ }
+
+ 6:function verifyAgeHigh(name,item) {
+  for (const i of item) {
+    if(name === i.name)
+    return i
+  }
+  return ""
+ }
+
+
+
 // Resposta
 ```
 
@@ -448,7 +522,26 @@ Explique o porquê dos preços estarem com o mesmo valor. E o que precisa ser al
 
 
 ```js
-// Resposta
+Havia um problema de escopo onde o prices do regularTicket era setado dentro da função.
+
+Correção:
+   	const getDiscountTicket = (ticket:any, discount:any) => {
+    const discountTicket = { ...ticket };
+    const prices = {
+      vip:0,
+      stands:0
+    }
+  		prices.vip = discountTicket.prices.vip * discount;
+      prices.stands = discountTicket.prices.stands * discount;
+      discountTicket.prices = prices
+		return discountTicket;
+	}
+
+	const regularTicket = { band: 'Metallica', city: 'Belo Horizonte', prices: { vip: 800, stands: 600 } }
+	const discountTicket = getDiscountTicket(regularTicket, 0.5);
+
+	console.log('discountTicket: ', discountTicket.prices);
+	console.log('regularTicket: ', regularTicket.prices);
 ```
 
 ---
@@ -504,13 +597,21 @@ Explique o porquê dos preços estarem com o mesmo valor. E o que precisa ser al
 1\) Cite tipos de componentes que existem no ReactJs e a melhor forma de utilização de cada um.
 
 ```js
-// Resposta
+Component de classe: São componentes que podemgerenciar seu estado, obedecem ao ciclo de vida do React, ele é indicado quando
+se precisa manipular props ou estado dentro dele.
+Componente sem estado: São com componentes "estaticos", servem apenas para exibição, são indicados para rederização onde não é
+necessário a manipulação dos dados.
 ```
 
 2\) O que são e como funcionam os lifecycles no ReactJs? Cite um exemplo de uso de pelo menos um método lifecycle.
 
 ```js
-// Resposta
+lifescycles são metodos invocados antes, durante e depois da criação de um componente do react,
+cada método é invocado em um momento diferente na aplicação.
+
+exemplo:componentDidMount() é chamado logo após o render() e é ideal para se usado para chamadas em apis e inicialização de estado. 
+
+
 ```
 
 3\) Atualmente nosso sistema possui um componente chamado Button que possui a seguinte estrutura:
