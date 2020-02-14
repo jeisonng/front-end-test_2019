@@ -19,8 +19,12 @@ export default class Home extends Component {
     }
 
     componentDidMount = async () => {
-        const { data } = await axios.get('https://5ba412108da2f20014654cf8.mockapi.io/api/v1/flights')
-        this.setState({ upcommig: data.filter(this.checkUpcommig), past: data.filter(this.checkPast) })
+        try {
+            const { data } = await axios.get('https://5ba412108da2f20014654cf8.mockapi.io/api/v1/flights')
+            this.setState({ upcommig: data.filter(this.checkUpcommig), past: data.filter(this.checkPast) })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     render() {
