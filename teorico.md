@@ -7,18 +7,29 @@ E o que você acha interessante não utilizar?
 Justifique levando em consideração boas práticas, estilização e formato de arquivos.
 
 ```js
-// Resposta
+Acredito que o melhor recurso atualmente é utilizar imagens como background em divs devido a facilidade de manipulação e inserção de outros elementos no container da div.
 ```
 
 
-
+.
 
 2\) Você conhece algum padrão/metodologia que auxilie a estilização de uma aplicação? 
 Explique um pouco através de exemplos;
 
 
 ```js
-// Resposta
+O padrão que coneheço é utulizar o css em um arquivo saparado do código, evitado a tag <style> e o stilo inline.
+exemplos:
+body {
+  color: blue;
+}
+
+h1 {
+  color: green;
+}
+</style>
+
+<span style="color:blue;">Texto</span>
 ```
 
 
@@ -29,7 +40,7 @@ Tem algum exemplo que você não acha interessante?
 
 
 ```js
-// Resposta
+Inicio as aplições utilizando o conceito mobile first, para resposividade utilizo bootstrap e media querys.
 ```
 
 
@@ -122,8 +133,95 @@ Tem algum exemplo que você não acha interessante?
 ```
 
 ```js
-// Resposta
+Primeiro problema indentificado: a tag <span> sendo utilizada como container.
+Segundo problema indentificado: a classe item possui width de 100% fazendo com que o conteudo saia da tela.
+Terceiro problema indentificado: nas classes ".list-item-holder .item .item__input-radio" existem duas declarações para border.
+Quarto problema indentificado: Texto das listas sai do container com dispositivos muito pequenos.
+Quinto problema indentificado: Media query incorreto.
 ```
+```
+Correções:
+
+-HTML:
+ <div class="lista-grande">
+		<h1>Lorem Ipsun Dolor</h1>
+			
+		<div class="list-item-holder">	
+			<ul>
+				<li class="item">
+					<label class="item__input-radio">
+						<input type=radio>
+						<span>1 item</span>
+					</label>
+				</li>
+				<li class="item">
+					<label  class="item__input-radio item__input-radio--cor-diferente">
+						<input type=radio>
+						<span>2 item</span>
+					</label>
+				</li>
+				<li class="item" id="ultimo-item">
+					<label  class="item__input-radio">
+						<input class type=radio>
+						<span>3 item</span>
+					</label>
+				</li>
+			</ul>
+		</div>
+    </div>
+
+
+-CSS:        
+ .lista-grande {
+            display: block;
+        }
+
+        .lista-grande h1 {
+            font-size: 18px;
+        }
+
+        .list-item-holder {
+            list-style-type: decimal-leading-zero !important;
+            padding: 1rem;
+        }
+
+        .item {
+            list-style-type: decimal-leading-zero !important;
+            padding: 1rem;
+            min-width: 120px;
+        }
+
+
+        .list-item-holder ul li {
+            list-style-type: thai;
+        }
+
+        .list-item-holder .item .item__input-radio {
+            padding: 25px;
+            border: solid 1px orange;
+            display: flex;
+            background: aliceblue;
+        }
+
+        .item__input-radio--cor-diferente {
+            border: solid 1px #eadabd;
+            background: #a0abb5;
+        }
+
+
+        @media screen and (min-width: 480px) {
+            .item__input-radio--cor-diferente {
+                background: #a0abb5 !important;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .item__input-radio--cor-diferente {
+                background: transparent !important;
+            }
+
+        }
+    ´´´
 
 
 
@@ -164,7 +262,33 @@ Tem algum exemplo que você não acha interessante?
 ```
 
 ```js
-// Resposta
+Atualmente não é possivel usar essa forma de aninhamento(".form-item", ".item-country {input, select, textarea" e "&.error") e com css(existem casos com sass e less que permitem)
+
+Na minha opinião essa seria a melhor solução:
+
+.form-holder .form-item {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .item input,
+        select,
+        textarea {
+            border: none;
+            padding: none;
+            box-shadow: none !important;
+        }
+        
+        .error {
+            background: red;
+        }
+
+        input:disabled,
+        select:disabled,
+        input:read-only,
+        select:read-only {
+            background-color: #FFF;
+        }
 ```
 
 
